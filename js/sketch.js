@@ -4,19 +4,29 @@ let Colors = {
   purple100:"#DE97CF",
   purple200:"#711B5F",
   purple300:"#270220",
+  white:"#fff",
   bg:"#050C2B"
 }
 
 let allTheShapes = [];
-let maxShapes = 10;
-let square;
+let maxShapes = 30;
+let circle;
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
   background(Colors.bg);
 
-  for (var i = 0; i < maxShapes; i++) {
-    allTheShapes[i] = new Square();
+  let randomShape;
+  for (let i = 0; i < maxShapes; i++) {
+    randomShape = Math.floor(random(2));
+    switch (randomShape) {
+      case 0:
+        allTheShapes[i] = new Square();
+        break;
+      case 1:
+        allTheShapes[i] = new Circle();
+        break;
+    }
   }
 }
 
@@ -27,7 +37,6 @@ function draw() {
     allTheShapes[i].move();
     allTheShapes[i].render();
   }
-
 }
 
 // Shape class
@@ -84,6 +93,59 @@ class Square extends Shape {
         rect(this.x, this.y, this.width, this.height);
         fill(Colors.coral200);
         rect(this.x + (this.width * 0.3), this.y + (this.height * 0.3), this.width * 0.45, this.width * 0.45);
+        break;
+    }
+  }
+}
+
+
+class Circle extends Shape {
+  constructor(){
+    super();
+    this.size = random(width * 0.012, width * 0.041);
+    this.circleType = Math.floor(random(5));
+  }
+
+  render() {
+    noStroke();
+    ellipseMode(CENTER);
+    switch (this.circleType) {
+      case 0:
+        //Circle 1
+        fill(Colors.coral100);
+        arc(this.size/2, this.size/2, this.size/2, this.size/2, HALF_PI, -HALF_PI);
+        fill(Colors.coral200);
+        arc(this.size/2, this.size/2, this.size/2, this.size/2, -HALF_PI, HALF_PI);
+        break;
+      case 1:
+        //Circle 2
+        fill(Colors.coral200);
+        arc(this.size/2, this.size/2, this.size/2, this.size/2, HALF_PI, -HALF_PI);
+        fill(Colors.purple300);
+        arc(this.size/2, this.size/2, this.size/2, this.size/2, -HALF_PI, HALF_PI);
+        break;
+      case 2:
+        //Circle 3
+        fill(Colors.purple300);
+        ellipse(this.x, this.y, this.size, this.size);
+        fill(Colors.coral200);
+        ellipse(this.x, this.y, this.size * 0.65, this.size * 0.65);
+        fill(Colors.coral100);
+        ellipse(this.x, this.y, this.size * 0.34, this.size * 0.34);
+        break;
+      case 3:
+        //Circle 4
+        fill(Colors.purple300);
+        ellipse(this.x, this.y, this.size, this.size);
+        fill(Colors.purple100);
+        ellipse(this.x, this.y, this.size * 0.34, this.size * 0.34);
+        break;
+      case 4:
+        //Circle 5
+        fill(Colors.coral200);
+        ellipse(this.x, this.y, this.size, this.size);
+        fill(Colors.white);
+        ellipse(this.x, this.y, this.size * 0.34, this.size * 0.34);
         break;
     }
   }
