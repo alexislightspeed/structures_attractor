@@ -49,6 +49,7 @@ class Shape {
     this.height = 10;
     this.speedX = random(-1,1);
     this.speedY = random(-1,1);
+    this.speedR = random(-Math.PI, Math.PI);
   }
 
   move() {
@@ -67,6 +68,7 @@ class Square extends Shape {
 
   render() {
     noStroke();
+    rectMode(CENTER);
     switch (this.shapeType) {
       case 0:
         //Square 1
@@ -87,15 +89,15 @@ class Square extends Shape {
         fill(Colors.purple300);
         rect(this.x, this.y, this.width, this.height);
         fill(Colors.coral200);
-        rect(this.x + (this.width * 0.3), this.y + (this.height * 0.3), this.width * 0.45, this.width * 0.45);
+        rect(this.x, this.y, this.width * 0.45, this.width * 0.45);
         break;
     }
   }
 
   collision() {
-    if(this.x < 0 || (this.x + this.width > width))
+    if(this.x < (this.width/2) || (this.x + this.width/2 > width))
       this.speedX *= -1
-    if(this.y < 0 || (this.y + this.height > height))
+    if(this.y < (this.height/2) || (this.y + this.height/2 > height))
       this.speedY *= -1
   }
 }
