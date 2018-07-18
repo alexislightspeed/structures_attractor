@@ -12,13 +12,13 @@ let square;
 function setup() {
   createCanvas(displayWidth, displayHeight);
   background(Colors.bg);
-  square = new Shape();
-  square.show();
-  print(square.x, square.y);
+  square = new Square();
 }
 
 function draw() {
-  square.move()
+  background(Colors.bg);
+  square.move();
+  square.render();
 }
 
 // Shape class
@@ -26,17 +26,32 @@ class Shape {
   constructor() {
     this.x = random(width);
     this.y = random(height);
-    this.width = random(width * 0.025, width * 0.035);
-    this.height = this.width;
-    this.speed = 1;
+    this.width = 10;
+    this.height = 10;
+    this.speedX = random(-1,10);
+    this.speedY = random(-1,10);
   }
 
   move() {
-    this.x += random(-this.speed, this.speed);
-    this.y += random(-this.speed, this.speed);
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if(this.x < 0 || (this.x + this.width > width))
+      this.speedX *= -1
+    if(this.y < 0 || (this.y + this.height > height))
+      this.speedY *= -1
+
+  }
+}
+
+class Square extends Shape {
+  constructor() {
+    super();
+    this.width = random(width * 0.025, width * 0.035);
+    this.height = this.width;
   }
 
-  show() {
+  render() {
     noStroke();
     fill(Colors.coral200);
     rect(this.x, this.y, this.width/2, this.height);
