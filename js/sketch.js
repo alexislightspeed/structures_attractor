@@ -13,7 +13,7 @@ let maxShapes = 30;
 let circle;
 
 function setup() {
-  createCanvas(displayWidth, displayHeight);
+  createCanvas(windowWidth, windowHeight);
   background(Colors.bg);
 
   let randomShape;
@@ -35,6 +35,7 @@ function draw() {
 
   for (var i = 0; i < allTheShapes.length; i++) {
     allTheShapes[i].move();
+    allTheShapes[i].collision();
     allTheShapes[i].render();
   }
 }
@@ -53,12 +54,6 @@ class Shape {
   move() {
     this.x += this.speedX;
     this.y += this.speedY;
-
-    if(this.x < 0 || (this.x + this.width > width))
-      this.speedX *= -1
-    if(this.y < 0 || (this.y + this.height > height))
-      this.speedY *= -1
-
   }
 }
 
@@ -67,12 +62,12 @@ class Square extends Shape {
     super();
     this.width = random(width * 0.025, width * 0.035);
     this.height = this.width;
-    this.squareType = Math.floor(random(3));
+    this.shapeType = Math.floor(random(3));
   }
 
   render() {
     noStroke();
-    switch (this.squareType) {
+    switch (this.shapeType) {
       case 0:
         //Square 1
         fill(Colors.coral200);
@@ -96,6 +91,13 @@ class Square extends Shape {
         break;
     }
   }
+
+  collision() {
+    if(this.x < 0 || (this.x + this.width > width))
+      this.speedX *= -1
+    if(this.y < 0 || (this.y + this.height > height))
+      this.speedY *= -1
+  }
 }
 
 
@@ -103,26 +105,26 @@ class Circle extends Shape {
   constructor(){
     super();
     this.size = random(width * 0.012, width * 0.041);
-    this.circleType = Math.floor(random(5));
+    this.shapeType = Math.floor(random(5));
   }
 
   render() {
     noStroke();
     ellipseMode(CENTER);
-    switch (this.circleType) {
+    switch (this.shapeType) {
       case 0:
         //Circle 1
         fill(Colors.coral100);
-        arc(this.size/2, this.size/2, this.size/2, this.size/2, HALF_PI, -HALF_PI);
+        arc(this.x, this.y, this.size, this.size, HALF_PI, -HALF_PI);
         fill(Colors.coral200);
-        arc(this.size/2, this.size/2, this.size/2, this.size/2, -HALF_PI, HALF_PI);
+        arc(this.x, this.y, this.size, this.size, -HALF_PI, HALF_PI);
         break;
       case 1:
         //Circle 2
         fill(Colors.coral200);
-        arc(this.size/2, this.size/2, this.size/2, this.size/2, HALF_PI, -HALF_PI);
+        arc(this.x, this.y, this.size, this.size, HALF_PI, -HALF_PI);
         fill(Colors.purple300);
-        arc(this.size/2, this.size/2, this.size/2, this.size/2, -HALF_PI, HALF_PI);
+        arc(this.x, this.y, this.size, this.size, -HALF_PI, HALF_PI);
         break;
       case 2:
         //Circle 3
@@ -149,4 +151,12 @@ class Circle extends Shape {
         break;
     }
   }
+
+  collision() {
+    if(this.x < (this.size/2) || (this.x + this.size/2 > width))
+      this.speedX *= -1
+    if(this.y < (this.size/2) || (this.y + this.size/2 > height))
+      this.speedY *= -1
+  }
+
 }
