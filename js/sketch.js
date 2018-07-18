@@ -7,18 +7,27 @@ let Colors = {
   bg:"#050C2B"
 }
 
+let allTheShapes = [];
+let maxShapes = 10;
 let square;
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
   background(Colors.bg);
-  square = new Square();
+
+  for (var i = 0; i < maxShapes; i++) {
+    allTheShapes[i] = new Square();
+  }
 }
 
 function draw() {
   background(Colors.bg);
-  square.move();
-  square.render();
+
+  for (var i = 0; i < allTheShapes.length; i++) {
+    allTheShapes[i].move();
+    allTheShapes[i].render();
+  }
+
 }
 
 // Shape class
@@ -28,8 +37,8 @@ class Shape {
     this.y = random(height);
     this.width = 10;
     this.height = 10;
-    this.speedX = random(-1,10);
-    this.speedY = random(-1,10);
+    this.speedX = random(-1,1);
+    this.speedY = random(-1,1);
   }
 
   move() {
@@ -49,13 +58,33 @@ class Square extends Shape {
     super();
     this.width = random(width * 0.025, width * 0.035);
     this.height = this.width;
+    this.squareType = Math.floor(random(3));
   }
 
   render() {
     noStroke();
-    fill(Colors.coral200);
-    rect(this.x, this.y, this.width/2, this.height);
-    fill(Colors.coral100);
-    rect(this.x + this.width/2, this.y, this.width/2, this.height);
+    switch (this.squareType) {
+      case 0:
+        //Square 1
+        fill(Colors.coral200);
+        rect(this.x, this.y, this.width/2, this.height);
+        fill(Colors.coral100);
+        rect(this.x + this.width/2, this.y, this.width/2, this.height);
+        break;
+      case 1:
+        //Square 2
+        fill(Colors.purple200);
+        rect(this.x, this.y, this.width/2, this.height);
+        fill(Colors.purple100);
+        rect(this.x + this.width/2, this.y, this.width/2, this.height);
+        break;
+      case 2:
+        //Square 3
+        fill(Colors.purple300);
+        rect(this.x, this.y, this.width, this.height);
+        fill(Colors.coral200);
+        rect(this.x + (this.width * 0.3), this.y + (this.height * 0.3), this.width * 0.45, this.width * 0.45);
+        break;
+    }
   }
 }
