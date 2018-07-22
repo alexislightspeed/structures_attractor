@@ -12,6 +12,8 @@ let allTheShapes = [];
 let maxShapes = 30;
 let circle;
 
+let logoSketchMtl, logoLightspeed, logoIxDA;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(Colors.bg);
@@ -19,6 +21,12 @@ function setup() {
   ellipseMode(CENTER);
   rectMode(CENTER);
 
+  //load the image files
+  logoSketchMtl = loadImage("img/logo-sketch-mtl.png");
+  logoLightspeed = loadImage("img/logo-lightspeed.png");
+  logoIxDA = loadImage("img/logo-ixda.png");
+
+  //create the shape objects
   let randomShape;
   for (let i = 0; i < maxShapes; i++) {
     randomShape = Math.floor(random(2));
@@ -36,8 +44,8 @@ function setup() {
 function draw() {
   background(Colors.bg);
 
+  //draw the shapes
   for (var i = 0; i < allTheShapes.length; i++) {
-
     allTheShapes[i].move();
     allTheShapes[i].collision();
 
@@ -46,9 +54,15 @@ function draw() {
     allTheShapes[i].render();
     pop();
   }
+
+  //draw the logos
+  image(logoSketchMtl, width/2 - (logoSketchMtl.width/4), height*0.21,  274, 68);
+  image(logoLightspeed, width/2 - (logoLightspeed.width/4), height*0.79,  235, 55);
+  //image(logoSketchMtl, width/2 - (logoSketchMtl.width/4), height*0.069,  274, 68);
 }
 
-// Shape class
+// Shape class.
+// comes with basic properties
 class Shape {
   constructor() {
     this.x = random(width);
@@ -57,10 +71,10 @@ class Shape {
 
     this.width = 10;
     this.height = 10;
-    this.speedX = random(-1,1);
-    this.speedY = random(-1,1);
+    this.speedX = random(-0.5,0.5);
+    this.speedY = random(-0.5,0.5);
 
-    this.speedR = random(-Math.PI, Math.PI);
+    this.speedR = random((-Math.PI/2), (Math.PI/2));
   }
 
   move() {
@@ -175,5 +189,20 @@ class Circle extends Shape {
     if(this.y < (this.size/2) || (this.y + this.size/2 > height))
       this.speedY *= -1
   }
+
+}
+
+class LetterS extends Shape{
+  constructor() {
+    super();
+    this.x = 0;
+    this.y = 0;
+    this.rot = 0;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.speedR = 0;
+  }
+
+
 
 }
